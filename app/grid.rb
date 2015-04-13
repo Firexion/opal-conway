@@ -51,6 +51,13 @@ class Grid
     `#{context}.strokeStyle = "#eee"`
     `#{context}.stroke()`
   end
+
+  def redraw_canvas
+    draw_canvas
+    state.each do |cell, liveness|
+      fill_cell(cell[0], cell[1]) if liveness == 1
+    end
+  end
  
   def canvas_id
     'conwayCanvas'

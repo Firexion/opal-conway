@@ -7,7 +7,7 @@ class Conway
   attr_reader :grid
   extend Forwardable
 
-  def delegators :@grid, :state, :state=
+  def delegators :@grid, :state, :state=, :redraw_canvas
 
   def initializer(grid)
     @grid = grid
@@ -60,5 +60,19 @@ class Conway
     elsif can_reproduce(x, y)
       1
     end
+  end
+
+  def tick
+    # This call is delegate to grid.state=
+    self.state = new_state
+    redraw_canvas
+  end
+
+  def new_state
+    new_state = Hash.new
+    state.each do |cell, _|
+      new_state[cell] = get_state_at(cell[0], cell[1])
+    end
+    new_state
   end
 end
