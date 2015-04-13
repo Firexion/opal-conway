@@ -2,6 +2,7 @@ require 'opal'
 require 'opal-jquery'
 require 'grid'
 require 'forwardable'
+require 'interval'
 
 class Conway
   attr_reader :grid
@@ -11,6 +12,12 @@ class Conway
 
   def initializer(grid)
     @grid = grid
+  end
+
+  def run
+    Interval.new do
+      tick
+    end
   end
 
   def is_alive?(x, y)
