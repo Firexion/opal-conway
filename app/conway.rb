@@ -10,8 +10,8 @@ class Conway
 
   def_delegators :@grid, :state, :state=, :redraw_canvas, :seed
 
-  def initializer(grid)
-    @grid = grid
+  def initialize(grid)
+    @grid  = grid
     add_enter_event_listener
   end
 
@@ -26,7 +26,7 @@ class Conway
   end
 
   def is_dead?(x, y)
-    !is_alive(x, y)
+    !is_alive?(x, y)
   end
 
   def population_at(x, y)
@@ -61,11 +61,11 @@ class Conway
   def get_state_at(x, y)
     if is_underpopulated?(x, y)
       0
-    elsif is_living_happily(x, y)
+    elsif is_living_happily?(x, y)
       1
-    elsif is_overpopulated(x, y)
+    elsif is_overpopulated?(x, y)
       0
-    elsif can_reproduce(x, y)
+    elsif can_reproduce?(x, y)
       1
     end
   end
@@ -100,3 +100,5 @@ class Conway
     event.which == 13
   end
 end
+
+game = Conway.new(Grid.new)
