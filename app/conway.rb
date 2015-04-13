@@ -1,9 +1,13 @@
 require 'opal'
 require 'opal-jquery'
 require 'grid'
+require 'forwardable'
 
 class Conway
   attr_reader :grid
+  extend Forwardable
+
+  def delegators :@grid, :state, :state=
 
   def initializer(grid)
     @grid = grid
