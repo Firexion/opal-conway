@@ -5,10 +5,10 @@ require 'forwardable'
 require 'interval'
 
 class Conway
-  attr_reader :grid
+  attr_reader :grid, :seed
   extend Forwardable
 
-  def delegators :@grid, :state, :state=, :redraw_canvas, :seed
+  def_delegators :@grid, :state, :state=, :redraw_canvas, :seed
 
   def initializer(grid)
     @grid = grid
@@ -31,13 +31,13 @@ class Conway
 
   def population_at(x, y)
     [
-      state[[x - 1, y - 1]]
-      state[[x - 1, y]]
-      state[[x - 1, y + 1]]
-      state[[x, y - 1]]
-      state[[x, y + 1]]
-      state[[x + 1, y - 1]]
-      state[[x + 1, y]]
+      state[[x - 1, y - 1]],
+      state[[x - 1, y]],
+      state[[x - 1, y + 1]],
+      state[[x, y - 1]],
+      state[[x, y + 1]],
+      state[[x + 1, y - 1]],
+      state[[x + 1, y]],
       state[[x + 1, y + 1]]
     ].map(&:to_i).reduce(:+)
   end
