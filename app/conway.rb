@@ -8,10 +8,11 @@ class Conway
   attr_reader :grid
   extend Forwardable
 
-  def delegators :@grid, :state, :state=, :redraw_canvas
+  def delegators :@grid, :state, :state=, :redraw_canvas, :seed
 
   def initializer(grid)
     @grid = grid
+    add_enter_event_listener
   end
 
   def run
@@ -81,5 +82,21 @@ class Conway
       new_state[cell] = get_state_at(cell[0], cell[1])
     end
     new_state
+  end
+
+  def add_enter_event_listener
+    Document.on :keypress do |event|
+      if enter_pressed? event
+        seed.each do |x, y|
+          state[[x, y]] = 1
+        end
+
+        run
+      end
+    end
+  end
+
+  def enter_pressed?(event)
+    event.which == 13
   end
 end

@@ -4,7 +4,7 @@ require 'ostruct'
  
 class Grid
   attr_reader :height, :width, :canvas, :context, :max_x, :max_y
-  attr_accessor :state
+  attr_accessor :state, :seed
  
   CELL_HEIGHT = 15
   CELL_WIDTH  = 15
@@ -16,8 +16,10 @@ class Grid
     @context = `#{canvas}.getContext('2d')`
     @max_x   = (height / CELL_HEIGHT).floor
     @max_y   = (width / CELL_WIDTH).floor
-    @state = blank_state
+    @state   = blank_state
+    @seed    = []
     draw_canvas
+    add_event_listener
   end
 
   def blank_state
@@ -103,12 +105,15 @@ class Grid
       coords = get_cursor_position(event)
       x, y = coords.x, coords.y
       fill_cell(x, y)
+      seed << [x, y]
     end
 
     Element.find("##{canvas_id}").on :dblclick do |event|
       coords = get_cursor_position(event)
       x, y = coords.x, coords.y
       unfill_cell(x, y)
+
+      seed.delete([x, y])
     end
   end
 end
